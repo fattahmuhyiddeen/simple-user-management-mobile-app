@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item  android:drawable="@android:color/white"/>
+    <item
+        android:width="70dp"
+        android:height="70dp"
+        android:drawable="@drawable/splash_screen_image"
+        android:gravity="center"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
+        />
+</layer-list>
