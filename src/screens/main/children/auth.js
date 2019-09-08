@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, ScrollView, Image, Text, TouchableOpacity, StyleSheet, Animated, Dimensions, Easing, Keyboard } from 'react-native';
-import DeviceInfo from 'react-native-device-info';
+import { ScrollView, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import CompleteTextInput from 'react-native-complete-textinput';
 import SwitchSelector from 'react-native-switch-selector';
+import * as accountActions from 'ducks/persist/account';
 
 const options = [
   { label: 'Login', value: 'login' },
@@ -21,6 +21,8 @@ class App extends React.Component {
   get isRegister() {
     return this.state.tab === 'register';
   }
+
+  buttonPressed = () => accountActions[this.isRegister ? 'register' : 'login'](this.state);
 
   render() {
     return (
@@ -50,7 +52,7 @@ class App extends React.Component {
           customStyle={styles.input}
           placeholder='Password'
         />
-        <TouchableOpacity style={styles.buttonContainer}>
+        <TouchableOpacity onPress={() => this.buttonPressed()} style={styles.buttonContainer}>
           <Text style={styles.buttonText}>{this.isRegister ? 'Register' : 'Login'}</Text>
         </TouchableOpacity>
       </ScrollView>

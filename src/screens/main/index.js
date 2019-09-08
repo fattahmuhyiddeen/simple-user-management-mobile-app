@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, TouchableOpacity, Keyboard, StyleSheet } from 'react-native';
-import DeviceInfo from 'react-native-device-info';
+import { TouchableOpacity, Keyboard, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import Container from './children/container';
 import Auth from './children/auth';
+import List from './children/list';
 
 class App extends React.Component {
   render() {
@@ -11,7 +11,11 @@ class App extends React.Component {
     return (
       <TouchableOpacity onPress={Keyboard.dismiss} activeOpacity={1} style={{ flex: 1, backgroundColor: 'red' }}>
         <Container>
-          {!token && <Auth />}
+          {!token ?
+            <Auth />
+            :
+            <List />
+          }
         </Container>
       </TouchableOpacity>
     );

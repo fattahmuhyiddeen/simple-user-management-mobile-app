@@ -1,13 +1,12 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from '@react-native-community/async-storage';
-import rootReducer from './ducks';
 import { createLogger } from 'redux-logger';
-import createSagaMiddleware from 'redux-saga';
-import rootSaga from './sagas';
+import thunk from 'redux-thunk';
+import rootReducer from './ducks';
+
 
 let store;
-const sagaMiddleware = createSagaMiddleware();
 const persistConfig = {
   key: 'root',
   storage,
@@ -18,11 +17,10 @@ const reducers = persistReducer(persistConfig, rootReducer);
 export default () => {
   if (__DEV__) {
     const logger = createLogger({ collapsed: true });
-    store = createStore(reducers, compose(applyMiddleware(sagaMiddleware, logger)));
+    store = createStore(reducers, compose(applyMiddleware(thunk, logger)));
   } else {
-    store = createStore(reducers, compose(applyMiddleware(sagaMiddleware)));
+    store = createStore(reducers, compose(applyMiddleware(thunk)));
   }
-  sagaMiddleware.run(rootSaga);
 
   persistStore(store);
   return store;

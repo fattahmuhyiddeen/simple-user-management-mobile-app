@@ -32,26 +32,27 @@ class Container extends React.Component {
   };
 
   render() {
-    const {device: { isKeyboardAppear }, children} = this.props;
+    const { device: { isKeyboardAppear }, children, account } = this.props;
     const { iconContainerWidth, iconContainerHeight, iconContainerBorderRadius, iconContainerTop, bodyContainerTop } = this.state;
+    const isMiniHeader = !!account.token && isKeyboardAppear
     return (
       <>
-        <AnimatedTouchable 
-          transition='top' 
-          activeOpacity={1} 
-          onPress={Keyboard.dismiss} 
-          style={[styles.bodyContainer, { top: isKeyboardAppear ? 40 : bodyContainerTop }]}
+        <AnimatedTouchable
+          transition='top'
+          activeOpacity={1}
+          onPress={Keyboard.dismiss}
+          style={[styles.bodyContainer, { top: isMiniHeader ? 40 : bodyContainerTop }]}
           children={children}
         />
         <AnimatedTouchable
           transition={['width', 'height', 'borderRadius', 'top']}
           style={[
-            styles.iconContainer, 
-            { 
+            styles.iconContainer,
+            {
               width: iconContainerWidth,
               height: iconContainerHeight,
               borderRadius: iconContainerBorderRadius,
-              top: isKeyboardAppear ? 20 : iconContainerTop 
+              top: isMiniHeader ? 20 : iconContainerTop
             }
           ]}
         >
@@ -63,12 +64,12 @@ class Container extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  bodyContainer:{
-    position:'absolute',
+  bodyContainer: {
+    position: 'absolute',
     backgroundColor: 'white',
-    bottom:0,
-    left:0,
-    right:0,
+    bottom: 0,
+    left: 0,
+    right: 0,
     paddingTop: 60
   },
   iconContainer: {
@@ -82,5 +83,6 @@ const styles = StyleSheet.create({
 });
 
 export default connect((state) => ({
-  device: state.device
+  device: state.device,
+  account: state.persist.account
 }))(Container);
