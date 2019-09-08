@@ -25,7 +25,7 @@ export default class RestAPI {
     }
 
     xhr.onload = ({ target }) => {
-      if (target.status > 299) {
+      if (target.status > 299 || target.status < 200) {
         onFail(target);
         return;
       }
@@ -33,6 +33,6 @@ export default class RestAPI {
     };
 
     xhr.onerror = onFail;
-    xhr.send(JSON.stringify(data));
+    !!data ? xhr.send(JSON.stringify(data)) : xhr.send();
   };
 }

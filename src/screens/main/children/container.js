@@ -1,7 +1,8 @@
 import React from 'react';
-import { Image, Text, TouchableOpacity, StyleSheet, Dimensions, Keyboard } from 'react-native';
-import * as Animatable from 'react-native-animatable';
+import { Image, Alert, TouchableOpacity, StyleSheet, Dimensions, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
+import * as Animatable from 'react-native-animatable';
+import * as accountActions from 'ducks/persist/account';
 
 const icon = require('./icon.png');
 
@@ -31,10 +32,24 @@ class Container extends React.Component {
     });
   };
 
+  iconPressed = () => {
+    const { account } = this.props;
+    if (!account.token) return;
+
+    Alert.alert(
+      'Hi ' + account.name,
+      `You have logged in using ${account.email} which is registered on ${account.created_at}`,
+      [
+        { text: 'Logout', onPress: () => accountActions.logout() },
+        { text: 'Continue' },
+      ],
+    );
+  }
+
   render() {
     const { device: { isKeyboardAppear }, children, account } = this.props;
     const { iconContainerWidth, iconContainerHeight, iconContainerBorderRadius, iconContainerTop, bodyContainerTop } = this.state;
-    const isMiniHeader = !!account.token && isKeyboardAppear
+    const isMiniHeader = !!account.token || isKeyboardAppear;
     return (
       <>
         <AnimatedTouchable
@@ -45,6 +60,8 @@ class Container extends React.Component {
           children={children}
         />
         <AnimatedTouchable
+          activeOpacity={!!account.token ? 1 : 0.7}
+          onPress={() => this.iconPressed()}
           transition={['width', 'height', 'borderRadius', 'top']}
           style={[
             styles.iconContainer,

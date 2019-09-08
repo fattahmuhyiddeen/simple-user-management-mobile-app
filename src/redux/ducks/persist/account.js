@@ -7,12 +7,16 @@ const initialState = {
   error: null,
   token: '',
   name: '',
-  email: ''
+  email: '',
+  created_at: ''
 };
 
 const LOGIN = 'LOGIN';
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 const LOGIN_FAIL = 'LOGIN_FAIL';
+
+const LOGOUT = 'LOGOUT';
+
 
 const REGISTER = 'REGISTER';
 const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
@@ -28,6 +32,8 @@ export const login = data => {
   });
 };
 
+export const logout = () => dispatch({ type: LOGOUT })
+
 export const register = data => {
   dispatch({ type: REGISTER, data });
   http.call({
@@ -40,6 +46,8 @@ export const register = data => {
 
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
+    case LOGOUT:
+      return initialState;
     case LOGIN:
     case REGISTER:
       return { ...state, isLoading: true }
@@ -48,6 +56,11 @@ export default function reducer(state = initialState, action = {}) {
       return { ...state, isLoading: false, ...action.data }
     case LOGIN_FAIL:
     case REGISTER_FAIL:
+      if (action.error && action.error.response) {
+        alert(JSON.parse(action.error.response).message)
+      } else {
+        alert(JSON.stringify(action.error.response))
+      }
       return { ...state, isLoading: false }
     default:
       return state;

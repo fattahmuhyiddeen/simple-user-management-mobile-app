@@ -1,12 +1,8 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import CompleteFlatList from 'react-native-complete-flatlist';
-
-const options = [
-  { label: 'Login', value: 'login' },
-  { label: 'Register', value: 'register' }
-];
+import * as usersAction from 'ducks/persist/users';
 
 class App extends React.Component {
   state = {
@@ -26,11 +22,12 @@ class App extends React.Component {
     return (
       <CompleteFlatList
         backgroundStyles={{ backgroundColor: '#eee' }}
-        searchKey={['name', 'email', 'created_at']}
+        searchKey={['name']}
         isRefreshing={users.isLoading}
+        pullToRefreshCallback={() => usersAction.getAllUsers()}
         data={users.data}
         renderItem={(item, index) => (
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, padding: 10 }}>
             <View style={{ flexDirection: 'column' }}>
               <Text style={styles.renderItemTitle}>{item.name}</Text>
               <Text> {item.email}</Text>

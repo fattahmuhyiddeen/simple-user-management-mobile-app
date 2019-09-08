@@ -5,12 +5,11 @@ import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 import rootReducer from './ducks';
 
-
 let store;
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['persist_'],
+  whitelist: ['persist'],
 };
 const reducers = persistReducer(persistConfig, rootReducer);
 
