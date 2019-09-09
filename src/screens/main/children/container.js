@@ -33,15 +33,16 @@ class Container extends React.Component {
   };
 
   iconPressed = () => {
+    Keyboard.dismiss();
     const { account } = this.props;
     if (!account.token) return;
 
     Alert.alert(
       'Hi ' + account.name,
-      `You have logged in using ${account.email} which is registered on ${account.created_at}`,
+      `You have logged in using ${account.email} which is registered on "${account.created_at}"`,
       [
         { text: 'Logout', onPress: () => accountActions.logout() },
-        { text: 'Continue' },
+        { text: 'Back' },
       ],
     );
   }

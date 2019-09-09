@@ -1,6 +1,7 @@
 import { dispatch } from 'root-of-redux/store';
 import http from 'services/http';
 import endpoints from 'config/endpoints';
+import moment from 'moment';
 
 const initialState = {
   isLoading: false,
@@ -53,7 +54,15 @@ export default function reducer(state = initialState, action = {}) {
       return { ...state, isLoading: true }
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
-      return { ...state, isLoading: false, ...action.data }
+      return {
+        ...state,
+        isLoading: false,
+        ...action.data,
+        created_at: moment(action.data.date)
+          .utc()
+          .local()
+          .format('MMMM Do YYYY, h:mm:ss a'),
+      }
     case LOGIN_FAIL:
     case REGISTER_FAIL:
       if (action.error && action.error.response) {

@@ -27,10 +27,14 @@ class App extends React.Component {
         pullToRefreshCallback={() => usersAction.getAllUsers()}
         data={users.data}
         renderItem={(item, index) => (
-          <View style={{ flex: 1, padding: 10 }}>
-            <View style={{ flexDirection: 'column' }}>
+          <View style={{ flex: 1, padding: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
+            <View>
               <Text style={styles.renderItemTitle}>{item.name}</Text>
               <Text> {item.email}</Text>
+            </View>
+            <View style={{ alignItems: 'flex-end' }}>
+              <Text style={styles.renderItemTitle}>Registered at</Text>
+              <Text> {item.created_at}</Text>
             </View>
           </View>
         )}
