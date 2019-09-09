@@ -30,7 +30,7 @@ export default function reducer(state = initialState, action = {}) {
         data.created_at = moment(data.created_at)
           .utc()
           .local()
-          .format('MMMM Do YYYY, h:mm:ss a')
+          .format('MMM Do YYYY, h:mm:ss a')
         return data;
       });
       return { ...state, isLoading: false, data }
